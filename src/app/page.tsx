@@ -85,6 +85,36 @@ export default function Home() {
   const [newestRecipes, setNewestRecipes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  type CategoryName = "อาหารไทย" | "อาหารญี่ปุ่น" | "อาหารตะวันตก" | "ขนมหวาน";
+
+  const [categoryCounts, setCategoryCounts] = useState<Record<CategoryName, number>>({
+  "อาหารไทย": 0,
+  "อาหารญี่ปุ่น": 0,
+  "อาหารตะวันตก": 0,
+  "ขนมหวาน": 0
+  });
+  useEffect(() => {
+  if (!loading) {
+    // รวมสูตรจากทั้ง 2 แหล่ง และกรองไม่ให้ซ้ำ
+    const allRecipesMap = new Map<string, any>();
+    [...popularRecipes, ...newestRecipes].forEach((r) => {
+      allRecipesMap.set(r.recipeid, r); // ถ้ามี recipeid ซ้ำ จะถูกแทนที่อันเก่า
+    });
+
+    const uniqueRecipes = Array.from(allRecipesMap.values());
+
+    // นับจำนวนแต่ละหมวด
+    const counts = {
+      "อาหารไทย": uniqueRecipes.filter(r => r.category === "อาหารไทย").length,
+      "อาหารญี่ปุ่น": uniqueRecipes.filter(r => r.category === "อาหารญี่ปุ่น").length,
+      "อาหารตะวันตก": uniqueRecipes.filter(r => r.category === "อาหารตะวันตก").length,
+      "ขนมหวาน": uniqueRecipes.filter(r => r.category === "ขนมหวาน").length,
+    };
+
+    setCategoryCounts(counts);
+  }
+}, [loading, popularRecipes, newestRecipes]);
+
   const handleCreateRecipeClick = () => {
     if (user) {
       router.push("/recipes/new");
@@ -216,31 +246,33 @@ export default function Home() {
 
       {/* Categories Section */}
       {!loading && (
-      <div className="bg-peach py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">
+        <div className="bg-peach py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">
             หมวดหมู่อาหาร
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[
-              { name: "อาหารไทย", emoji: "🇹🇭", count: 120 },
-              { name: "อาหารญี่ปุ่น", emoji: "🇯🇵", count: 89 },
-              { name: "อาหารตะวันตก", emoji: "🍝", count: 76 },
-              { name: "ขนมหวาน", emoji: "🧁", count: 45 }
-            ].map((category) => (
-              <div
-                key={category.name}
-                className="bg-peach rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer transition-colors"
-              >
-                <div className="text-4xl mb-2">{category.emoji}</div>
-                <h3 className="font-semibold text-gray-900">{category.name}</h3>
-                <p className="text-sm text-gray-600">{category.count} สูตร</p>
-              </div>
-            ))}
+            </h2>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {[
+          { name: "อาหารไทย", emoji: "🇹🇭" },
+          { name: "อาหารญี่ปุ่น", emoji: "🇯🇵" },
+          { name: "อาหารตะวันตก", emoji: "🍝" },
+          { name: "ขนมหวาน", emoji: "🧁" }
+        ].map((category) => (
+          <div
+            key={category.name}
+            className="bg-peach rounded-lg p-6 text-center hover:bg-gray-100 cursor-pointer transition-colors"
+          >
+            <div className="text-4xl mb-2">{category.emoji}</div>
+            <h3 className="font-semibold text-gray-900">{category.name}</h3>
+            <p className="text-sm text-gray-600">
+              {categoryCounts[category.name as CategoryName] || 0} สูตร
+            </p>
           </div>
+          ))}
         </div>
       </div>
-      )}
+    </div>
+    )}
     </div>
   );
 }
