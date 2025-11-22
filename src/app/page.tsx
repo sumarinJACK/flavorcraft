@@ -151,23 +151,50 @@ export default function Home() {
       {/* Hero Section */}
       <div className="bg-softwhite">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-              ค้นพบสูตรอาหารอร่อยๆ
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              แชร์และค้นหาสูตรอาหารจากเชฟและคนรักการทำอาหารจากทั่วโลก
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={handleCreateRecipeClick}
-                className="px-8 py-3 border border-gray-300 text-black rounded-lg hover:bg-primary font-medium transition-colors"
-              >
-                {user ? "เริ่มต้นแบ่งปันสูตรอาหาร" : "เข้าสู่ระบบเพื่อแบ่งปันสูตร"}
-              </button>
-              <button className="px-8 py-3 border border-gray-300 text-black rounded-lg hover:bg-primary font-medium">
-                ดูสูตรทั้งหมด
-              </button>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+
+            {/* Left Image */}
+            <div className="flex justify-center">
+              <img
+                src="/images/Food-Ing.png"
+                alt="เมนูอาหารซ้าย"
+                className="w-64 h-auto rounded-2xl shadow-lg object-cover"
+              />
+            </div>
+
+            {/* Center Text */}
+            <div className="text-center">
+              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+                ค้นพบสูตร
+              </h1>
+              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+                อาหารอร่อยๆ
+              </h1>
+              <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                แชร์และค้นหาสูตรอาหารจากเชฟและคนรักการทำอาหารจากทั่วโลก
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button 
+                  onClick={handleCreateRecipeClick}
+                  className="px-8 py-3 border border-gray-300 text-black rounded-lg hover:bg-primary font-medium transition-colors"
+                >
+                  {user ? "เริ่มต้นแบ่งปันสูตรอาหาร" : "เข้าสู่ระบบเพื่อแบ่งปันสูตร"}
+                </button>
+
+                <button className="px-8 py-3 border border-gray-300 text-black rounded-lg hover:bg-primary font-medium">
+                  ดูสูตรทั้งหมด
+                </button>
+              </div>
+            </div>
+
+            {/* Right Image */}
+            <div className="flex justify-center">
+              <img
+                src="/images/many-food.png"
+                alt="เมนูอาหารขวา"
+                className="w-64 h-auto rounded-2xl shadow-lg object-cover"
+              />
             </div>
           </div>
         </div>
