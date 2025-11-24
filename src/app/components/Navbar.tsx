@@ -54,6 +54,12 @@ export default function Navbar() {
                   เพิ่มสูตรใหม่
                 </Link>
                 <Link 
+                  href="/meal-planner"
+                  className="text-gray-700 hover:text-gray-900 font-medium"
+                >
+                  วางแผนอาหารประจำสัปดาห์
+                </Link>
+                <Link 
                   href={`/Profile/${user.uid}`}
                   className="text-gray-700 hover:text-gray-900 font-medium"
                 >
